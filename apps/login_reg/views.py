@@ -15,9 +15,14 @@ def register(request):
             messages.error(request, value, extra_tags=key)
         return redirect('/')
     else:
+        users = User.objects.all()
+        if len(users) == 0:
+            userLevel = "admin"
+        else:
+            userLevel = "normal"
         password = request.POST['password']
         pw_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
-        new_user = User.objects.create(first_name = request.POST['first_name'], last_name = request.POST['last_name'], birthday = request.POST['birthday'], email = request.POST['email'], password = pw_hash)
+        new_user = User.objects.create(first_name = request.POST['first_name'], last_name = request.POST['last_name'], birthday = request.POST['birthday'], email = request.POST['email'], password = pw_hash, user_level = userLevel)
         request.session['userid'] = new_user.id
         username = new_user.first_name
         request.session['username'] = username
