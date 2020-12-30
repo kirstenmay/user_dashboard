@@ -1,9 +1,9 @@
-from django.conf.urls import url
+from django.urls import path, include
 from . import views
                     
 urlpatterns = [
-    url(r'^log_out$', views.log_out),
-    url(r'^login$', views.login),
-    url(r'^register$', views.register),
-    url(r'^$', views.login_reg),
+    path('log_out', views.log_out),
+    path('login', views.login),
+    path('register', views.register),
+    path('', views.login_reg),
 ]
