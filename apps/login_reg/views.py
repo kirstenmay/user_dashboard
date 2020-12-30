@@ -6,7 +6,7 @@ import datetime
 
 
 def login_reg(request):
-    return render(request, 'login_reg/register.html')
+    return render(request, 'register.html')
 
 def register(request):
     errors = User.objects.reg_validator(request.POST)
@@ -26,7 +26,9 @@ def register(request):
         request.session['userid'] = new_user.id
         username = new_user.first_name
         request.session['username'] = username
-        return redirect("/dashboard/")
+        if new_user.user_level == "admin":
+            return redirect('/dashboard/admin')
+        return redirect('/dashboard/')
 
 def login(request):
     errors = User.objects.login_validator(request.POST)
@@ -40,6 +42,8 @@ def login(request):
         request.session['userid'] = logged_user.id
         username = logged_user.first_name
         request.session['username'] = username
+        if user.user_level == "admin":
+            return redirect('/dashboard/admin')
         return redirect('/dashboard/')
 
 def log_out(request):
