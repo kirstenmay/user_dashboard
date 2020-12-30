@@ -1,8 +1,14 @@
-from django.shortcuts import render
-from login_reg.models import User
+from django.shortcuts import render, redirect
+from apps.login_reg.models import User
 
 def admin_dashboard(request):
-    pass
+    if 'userid' in request.session:
+        return render(request, 'admin_dashboard.html')
+    else:
+        return redirect('/')
 
 def dashboard(request):
-    pass
+    if 'userid' in request.session:
+        return render(request, 'dashboard.html')
+    else:
+        return redirect('/')
