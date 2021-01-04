@@ -55,6 +55,11 @@ def change_profile(request):
         user.save()
         return redirect('/dashboard/')
 
+def delete_user(request, user_id):
+    user = User.objects.get(id=user_id)
+    user.delete()
+    return redirect('/dashboard/admin/')
+
 def admin_edit_user(request, user_id):
     if 'userid' in request.session:
         user = User.objects.get(id=int(request.session['userid']))
