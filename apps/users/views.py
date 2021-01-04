@@ -59,7 +59,7 @@ def admin_edit_user(request, user_id):
     if 'userid' in request.session:
         user = User.objects.get(id=int(request.session['userid']))
         if user.user_level != 'admin' or user.id == user_id:
-            return render(request, 'edit_profile.html')
+            return redirect('/users/edit/')
         else:
             context = {
                 'user': user

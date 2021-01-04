@@ -5,7 +5,7 @@ def admin_dashboard(request):
     if 'userid' in request.session:
         user = User.objects.get(id=int(request.session['userid']))
         if user.user_level != 'admin':
-            return render(request, 'dashboard.html')
+            return redirect('/dashboard/')
         else:
             context = {
                 'users': User.objects.all()
