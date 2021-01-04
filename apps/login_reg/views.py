@@ -21,7 +21,7 @@ def register(request):
         else:
             userLevel = "normal"
         password = request.POST['password']
-        pw_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+        pw_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
         new_user = User.objects.create(first_name = request.POST['first_name'], last_name = request.POST['last_name'], birthday = request.POST['birthday'], email = request.POST['email'], password = pw_hash, user_level = userLevel)
         request.session['userid'] = new_user.id
         username = new_user.first_name
@@ -42,7 +42,7 @@ def login(request):
         request.session['userid'] = logged_user.id
         username = logged_user.first_name
         request.session['username'] = username
-        if user.user_level == "admin":
+        if logged_user.user_level == "admin":
             return redirect('/dashboard/admin')
         return redirect('/dashboard/')
 

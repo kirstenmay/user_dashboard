@@ -22,7 +22,7 @@ def create_user(request):
         return redirect("/users/new/")
     else:
         password = request.POST['password']
-        pw_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+        pw_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
         userLevel = 'normal'
         User.objects.create(first_name = request.POST['first_name'], last_name = request.POST['last_name'], birthday = request.POST['birthday'], email = request.POST['email'], password = pw_hash, user_level = userLevel)
         return redirect('/dashboard/admin')
@@ -46,7 +46,7 @@ def change_profile(request):
         return redirect("/users/edit/")
     else:
         password = request.POST['password']
-        pw_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+        pw_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
         user.first_name = request.POST['first_name']
         user.last_name = request.POST['last_name']
         user.birthday = request.POST['birthday']
@@ -81,7 +81,7 @@ def admin_change_user(request):
             return redirect(f"/users/edit/{user.id}")
         else:
             password = request.POST['password']
-            pw_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+            pw_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
             user.first_name = request.POST['first_name']
             user.last_name = request.POST['last_name']
             user.birthday = request.POST['birthday']
