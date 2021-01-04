@@ -14,9 +14,9 @@ class Message(models.Model):
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
     #Message will have a creator (one to many)
-    creator = models.ForeignKey(User, related_name="messages", on_delete = models.CASCADE)
-    #Message will have a recipient (many to many)
-    recipient = models.ManyToManyField(User, related_name="user_messages")
+    creator = models.ForeignKey(User, related_name="sent_messages", on_delete = models.CASCADE)
+    #Message will have a recipient (one to many)
+    recipient = models.ForeignKey(User, related_name="received_messages", on_delete = models.CASCADE)
     objects = message_manager()
 
 

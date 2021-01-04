@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from apps.login_reg.models import User
+from .models import Message, Comment
 from django.contrib import messages
 import bcrypt
 
@@ -93,18 +94,39 @@ def admin_change_user(request):
 def show_profile(request, user_id):
     if 'userid' in request.session:
         user = User.objects.get(id=user_id)
+        messages = Message.objects.fitler(recipient=user)
         context = {
-            'user': user
+            'user': user,
+            'messages': messages
         }
         return render(request, 'show_users.html', context)
     else:
         return redirect('/')
 
 def create_message(request):
-    pass
+    message_creator = User.objects.get(id=int(request.session['userid']))
+    message_recipient = User.objects.get(id=int(request.POST['recipient']))
+    errors = Message.objects.new_message_validator(request.POST)
+    if len(errors) > 0:
+        for key, value in errors.items():
+            messages.error(request, value, extra_tags=key)
+        return redirect(f"/users/show/{message_recipient.id}")
+    else:
+        Message.objects.create(message_body=request.POST['message_body'],creator=message_creator, recipient=message_recipient)
+        return redirect(f"/users/show/{message_recipient.id}")
 
 def create_comment(request):
-    pass
+    comment_creator = User.objects.get(id=int(request.session['userid']))
+    Message = Message.objects.get(id=int(request.POST['message']))
+    message_recipient = User.objects.get(request.POST['recipient'])
+    errors = Comment.objects.new_comment_validator(request.POST)
+    if len(errors) > 0:
+        for key, value in errors.items():
+            messages.error(request, value, extra_tags=key)
+        return redirect(f"/users/show/{message_recipient.id}")
+    else:
+        Comment.objects.create(comment_body=request.POST['comment_body'], creator=comment_creator, message=Message)
+        return redirect(f"/users/show/{message_recipient.id}")
 
 
 
