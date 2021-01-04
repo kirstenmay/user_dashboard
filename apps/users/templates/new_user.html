@@ -38,8 +38,52 @@
 </nav>
 
 <body>
-    <div class="container" style="padding-top: 50px;">
-
+    <div class="container text-center" style="padding-top: 25px;">
+        <div class="row justify-content-center">
+            <div class="col-8">
+                <h1 class="display-5" style="padding-bottom: 25px;">New User</h1>
+            </div>
+            <div class="col-8">
+                {% if messages %}
+                <ul class="messages" style="color:red;">
+                    {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                <form action="/users/new" method="post" style="margin-bottom: 100px;">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <div class="row" style="padding:20px;">
+                            <div class="col-6">
+                                <input type="hidden" name="create_user" value="create_user">
+                                <label for="first_name">First Name</label>
+                                <input type="text" name="first_name" id="first_name" class="form-control" value="">
+                                <label for="last_name">Last Name</label>
+                                <input type="text" name="last_name" id="last_name" class="form-control" value="">
+                                <label for="birthday">Birthday</label>
+                                <input type="date" name="birthday" id="birthday" class="form-control">
+                                <label for="">    </label>
+                                <select class="form-select" aria-label="Default select example">
+                                <option selected>User Level</option>
+                                <option value="admin">Admin</option>
+                                <option value="normal">Normal</option>
+                              </select>
+                            </div>
+                            <div class="col-6">
+                                <label for="email">Email</label>
+                                <input type="text" name="email" id="email" class="form-control" value="" placeholder="ex: jane.doe@email.com">
+                                <label for="password">Password</label>
+                                <input type="password" name="password" id="password" class="form-control">
+                                <label for="confirm">Password Confirmation</label>
+                                <input type="password" name="confirm" id="confirm" class="form-control" value="">
+                            </div>
+                        </div>
+                    </div>
+                    <input type="submit" class="btn btn-sm btn-outline-secondary" value="Create">
+                </form>
+            </div>
+        </div>
     </div>
 </body>
 

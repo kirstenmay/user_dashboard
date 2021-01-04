@@ -25,7 +25,7 @@ def create_user(request):
         pw_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
         userLevel = 'normal'
         User.objects.create(first_name = request.POST['first_name'], last_name = request.POST['last_name'], birthday = request.POST['birthday'], email = request.POST['email'], password = pw_hash, user_level = userLevel)
-        return redirect('/dashboard/admin')
+        return redirect('/dashboard/admin/')
 
 def edit_profile(request):
     if 'userid' in request.session:
